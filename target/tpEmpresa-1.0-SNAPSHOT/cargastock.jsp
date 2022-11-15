@@ -10,43 +10,43 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Carga Stock</title>
     </head>
-    <body>
-        <div id="main">
-                <form id="carga" method="post">
-                    Nombre <input type="text" name="nombre" /></br>
-                    Descripcion <input type="text" name="descrip" /></br> 
-                    Costo <input type="text" name="costo" /></br> 
-                    <input type="submit" value="Aceptar" />
-                </form>                        
+    <body>             
                 <%
                 Class.forName("com.mysql.jdbc.Driver");
-                String selectProdu = "SELECT * FROM tb_productos";               
                 Connection conexion = null;
-                PreparedStatement consultaProdu = null;
+                String cargaProdu = "INSERT INTO tb_productos(nom_producto, descr_producto, costo_producto) VALUES (?,?,?)";
+                String cargaProdu2 = "SELECT * FROM tb_productos"
+                PreparedStatement insertProdu = null;
+                PreparedStatement selectProdu = null;
+                ResultSet listaProdus = null;
                 try {
                     conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyectoempresa", "root", "");
-                    consultaProdu = conexion.prepareStatement(selectProdu);
-                    ResultSet listaProdu = consultaProdu.executeQuery();
-                    while (listaProdu.next()) {
-                       out.print("<option value='"+listaProdu.getString("nom_producto", "descr_producto", "costo_producto")+"'>"+listaProdu.getString("nom_productos", "descr_producto", "costo_producto")+"</option>");
-                    }
+                    insertProdu = conexion.prepareStatement(cargaProdu);
+                    insertProdu.setString(1, request.getParameter("nom"));
+                    insertProdu.setString(2, request.getParameter("desc"));
+                    insertProdu.setString(3, request.getParameter("costo"));
+                    insertProdu.execute();
                     
-                    listaProdu.close();
+                    selectProdu = conexion.prepareStatement(cargaProdu2);
+                    listaProdus = selectProdu.executeQuery();
+                    while (listaProdus.next()) {
+                        out.print("Nombre: " + listaProdus.getString("nom_producto") + "</br>");
+                        out.print("Descripcion: " + listaProdus.getString("descr_producto") + "</br>");
+                        out.print("Costo: " + listaProdus.getString("costo_producto") + "</br>");
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    out.println("exepcion </br>");
+                    out.println("excepcion </br>");
                     out.println("detalle de la consulta: </br>");
-                    out.println(consultaProdu + "</br>");
                 } finally {
                         try {        
-                            consultaProdu.close();
+                            listaProdus.close();
+                            insertProdu.close();
+                            selectProdu.close();
                             conexion.close();
                         } catch (Exception e) {
                     }
                 }
             %>
-                </select>
-
-        </div>
     </body>
 </html>

@@ -70,15 +70,8 @@ INSERT INTO tb_productos_sucursales(id_sucursal, id_producto, stock_producto)
 /********************************CONSULTAS************************************/
 
 /****CARGA PRODUCTOS****/
-SELECT tb_productos.nom_producto AS nombre,
-       tb_productos.descr_producto AS descripcion,
-       tb_productos.costo_producto AS costo,
-       tb_productos_sucursales.stock_producto AS stock
-FROM tb_productos_sucursales 
-    JOIN tb_productos 
-        ON tb_productos_sucursales.id_producto = tb_productos.id_producto
-    JOIN tb_sucursales
-        ON tb_productos_sucursales.id_sucursal = tb_sucursales.id_sucursal
+INSERT INTO tb_productos(nom_producto, descr_producto, costo_producto) VALUES (?,?,?)
+SELECT * FROM tb_productos
 
 /****CONTAR Y MOSTRAR PRODUCTOS****/
 SELECT nom_producto, descr_producto, costo_producto FROM tb_productos;
