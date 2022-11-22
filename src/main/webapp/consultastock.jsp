@@ -8,21 +8,39 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Consulta Stock</title>
     </head>
     <body>
-        <%
-            Class.forName("com.mysql.jdbc.Driver");
-            String consulta1 = "SELECT nom_producto, descr_producto, costo_producto FROM tb_productos";
-            String consulta2 = "SELECT stock_producto FROM tb_productos_sucursales;";
-            Connection conexion = null;
-            PreparedStatement consultaContar = null;
-            try{
-                conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyectoempresa", "root", "");
-                consultaContar = conexion.prepareStatement(consulta1);
-            }catch{
-            
-            }
+           <%
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection conexion = null;            
+                String qProd ="INSERT INTO tb_productos (nom_producto, descr_producto, costo_producto) VALUES (?,?,?); "
+                            + "SET @id_producto= LAST_INSERT_ID(); "
+                            + "INSERT INTO tb_productos_sucursales (id_producto, id_sucursal) VALUES (@id_producto,?)";
+                PreparedStatement consultaCurs = null;
+                String vId = request.getParameter("id");
+                String vProd = request.getParameter("prod");
+                String vDesc = request.getParameter("desc");
+                String vCosto = request.getParameter("costo");
+                try {
+                    conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyectoempresa", "root", "");
+                    consultaProd = conexion.prepareStatement(qProd);
+                    consultaProd.setString(1, request.getParameter("prod"));
+                    consultaProd.setString(2, request.getParameter("desc"));
+                    consultaProd.setString(3, request.getParameter("costo"));
+                    consultaProd.setString(4, request.getParameter("id"));
+                    consultaProd.execute();                   
+                    out.print("Cargado");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    out.println(consultaProd + "</br>");                  
+                } finally {
+                    try {
+                        consultaProd.close();
+                        conexion.close();
+                    } catch (Exception e) {
+                    }
+                }
             %>
     </body>
 </html>

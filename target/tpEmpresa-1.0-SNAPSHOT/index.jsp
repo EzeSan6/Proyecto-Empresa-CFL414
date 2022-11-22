@@ -14,21 +14,22 @@
         <%
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection conexion = null;
-                String qSucu = "SELECT * FROM tb_sucursales";
-                PreparedStatement consultaSucu = null;
+                String qSucus = "SELECT * FROM tb_sucursales";
+                PreparedStatement consultaSucus = null;
                 ResultSet listaSucus = null;
                 try {
                     conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyectoempresa", "root", "");
-                    consultaSucu = conexion.prepareStatement(qSucu);
-                    listaSucus = consultaSucu.executeQuery();
+                    consultaSucus = conexion.prepareStatement(qSucus);
+                    listaSucus = consultaSucus.executeQuery();
                     while(listaSucus.next()){
                     %>
-                    <p>Sucursal: <% out.print(listaSucu.getString("nom_sucursal")); %></p>
+                    <p>Sucursal: <%out.print(listaSucus.getString("nom_sucursal"));%></p>
                         <ul>
-                            <li><a href="cargastock.html">Carga</a><li>
-                            <li><a href="consultastock.jsp">Consulta</a><li>
-                            <li>Elimina<li>
-                        </ul><%
+                            <li><a href="cargastock.jsp?id=<%out.print(listaSedes.getString("id_sucursal"));%>">Carga</a><li>
+                            <li><a href="muestrastock.jsp?id=<%out.print(listaSedes.getString("id_sucursal"));%>">Muestra</a><li>
+                            <li><a href="eliminastock.jsp?id=<%out.print(listaSedes.getString("id_sucursal"));%>">Elimina</a><li>
+                        </ul>
+                    <%
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -37,7 +38,7 @@
                 } finally {
                     try {
                         listaSucus.close();
-                        consultaSucu.close();
+                        consultaSucus.close();
                         conexion.close();
                     } catch (Exception e){
                 }
