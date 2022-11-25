@@ -25,9 +25,9 @@
                     %>
                     <p>Sucursal: <%out.print(listaSucus.getString("nom_sucursal"));%></p>
                         <ul>
-                            <li><a href="cargastock.jsp?id=<%out.print(listaSedes.getString("id_sucursal"));%>">Carga</a><li>
-                            <li><a href="muestrastock.jsp?id=<%out.print(listaSedes.getString("id_sucursal"));%>">Muestra</a><li>
-                            <li><a href="eliminastock.jsp?id=<%out.print(listaSedes.getString("id_sucursal"));%>">Elimina</a><li>
+                            <li><a href="cargastock.jsp?id=<%out.print(listaSucus.getString("id_sucursal"));%>">Carga</a><li>
+                            <li><a href="muestrastock.jsp?id=<%out.print(listaSucus.getString("id_sucursal"));%>">Muestra</a><li>
+                            <li><a href="eliminastock.jsp?id=<%out.print(listaSucus.getString("id_sucursal"));%>">Elimina</a><li>
                         </ul>
                     <%
                     }

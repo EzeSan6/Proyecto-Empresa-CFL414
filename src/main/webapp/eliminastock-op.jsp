@@ -20,13 +20,13 @@
                 try {
                     conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyectoempresa", "root", "");
                     eliminaProd = conexion.prepareStatement(qProd);
-                    eliminaProd.setString(1, request.getParameter("idprod"))
+                    eliminaProd.setString(1, request.getParameter("idprod"));
                     eliminaProd.setString(2, request.getParameter("sucursal"));
                     eliminaProd.execute();                
                     out.print("ELIMINADO");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    out.println(consultaCurs + "</br>");
+                    out.println(eliminaProd + "</br>");
                   
                 } finally {
                     try {

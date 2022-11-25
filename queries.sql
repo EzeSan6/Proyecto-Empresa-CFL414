@@ -19,10 +19,10 @@ CREATE TABLE tb_sucursales(
 );
 
 CREATE TABLE tb_productos_sucursales(
-    id_sucursal int NOT NULL,
-    id_producto int NOT NULL,
+    id_tbsucursal int NOT NULL,
+    id_tbproducto int NOT NULL,
     stock_producto varchar(20),
-    PRIMARY KEY(id_sucursal, id_producto),
+    PRIMARY KEY(id_tbsucursal, id_tbproducto),
     FOREIGN KEY(id_sucursal) REFERENCES tb_sucursales(id_sucursal),
     FOREIGN KEY(id_producto) REFERENCES tb_productos(id_producto)
 );
@@ -76,3 +76,12 @@ SELECT * FROM tb_productos
 /****CONTAR Y MOSTRAR PRODUCTOS****/
 SELECT nom_producto, descr_producto, costo_producto FROM tb_productos;
 SELECT stock_producto FROM tb_productos_sucursales;
+
+            String qProd ="SELECT tb_productos.nom_producto AS producto"
+                        + "       tb_productos.costo_producto AS costo"
+                        + "       tb_sucursales.nom_sucursal AS sucursal"
+                        + "       tb_productos_sucursales.stock_producto AS stock"     
+                        + " FROM tb_productos_sucursales"
+                        + "    JOIN tb_productos ON tb_productos_sucursales.id_producto = tb_productos.id_producto"
+                        + "    JOIN tb_sucursales ON tb_productos_sucursales.id_sucursal = tb_sucursales.id_sucursal"
+                        + "        AND tb_sucursales.id_sucursal = ?";

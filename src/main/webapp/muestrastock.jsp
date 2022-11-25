@@ -15,23 +15,28 @@
         Class.forName("com.mysql.jdbc.Driver");
             Connection conexion = null;            
             String qProd ="SELECT tb_productos.nom_producto AS producto,"
-                        + "       tb_sucursales.nom_sucursal AS sucursal"
-                        + "FROM tb_productos_sucursales"
-                        + "    JOIN tb_productos ON tb_productos_sucursales.id_producto=tb_productos.id_producto"
-                        + "    JOIN tb_sucursales ON tb_productos_sucursales.id_sucursal= tb_sucursales.id_sucursal"
+                        + "       tb_productos.costo_producto AS costo,"
+                        + "       tb_sucursales.nom_sucursal AS sucursal,"
+                        + "       tb_productos_sucursales.stock_producto AS stock"
+                        + " FROM tb_productos_sucursales"
+                        + "    JOIN tb_productos ON tb_productos_sucursales.id_producto = tb_productos.id_producto"
+                        + "    JOIN tb_sucursales ON tb_productos_sucursales.id_sucursal = tb_sucursales.id_sucursal"
                         + "        AND tb_sucursales.id_sucursal = ?";
             PreparedStatement consultaProd = null;
        
             try {
-                conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyectoempresa", "root", "");
                 
+                conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyectoempresa", "root", "");                
                 consultaProd = conexion.prepareStatement(qProd);
                 consultaProd.setString(1, request.getParameter("id"));
                 ResultSet listaProd = consultaProd.executeQuery();
                 while (listaProd.next()){
                     %>
                     <ul>
-                        <li><%out.print(listaProd.getString("Productos"));%></li>
+                        <li><%out.print(listaProd.getString("producto"));%></li>
+                        <li><%out.print(listaProd.getString("costo"));%></li>
+                        <li><%out.print(listaProd.getString("stock"));%></li>
+
                     </ul>
                     <%
                 }                                       
